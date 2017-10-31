@@ -1,5 +1,11 @@
 package com.example.senurad.testprintsdk;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Hashtable;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -18,6 +24,8 @@ import android.os.Message;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -35,12 +43,6 @@ import com.telpo.tps550.api.TelpoException;
 import com.telpo.tps550.api.printer.UsbThermalPrinter;
 import com.telpo.tps550.api.util.StringUtil;
 import com.telpo.tps550.api.util.SystemUtil;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Hashtable;
 
 
 public class UsbPrinterActivity extends Activity {
@@ -498,33 +500,33 @@ public class UsbPrinterActivity extends Activity {
 
 
         //commented - Sen
-//        button_print_picture = (Button) findViewById(R.id.button_print_picture);
-//        button_print_picture.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                String exditText = editTextPrintGray.getText().toString();
-//                if (exditText == null || exditText.length() < 1) {
-//                    Toast.makeText(UsbPrinterActivity.this, getString(R.string.gray_level) + getString(R.string.lengthNotEnougth), Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-//                printGray = Integer.parseInt(exditText);
-//                if (printGray < 0 || printGray > 7) {
-//                    Toast.makeText(UsbPrinterActivity.this, getString(R.string.outOfGray), Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-//                if (LowBattery == true) {
-//                    handler.sendMessage(handler.obtainMessage(LOWBATTERY, 1, 0, null));
-//                } else {
-//                    if (!nopaper) {
-//                        progressDialog = ProgressDialog.show(UsbPrinterActivity.this, getString(R.string.bl_dy), getString(R.string.printing_wait));
-//                        handler.sendMessage(handler.obtainMessage(PRINTPICTURE, 1, 0, null));
-//                    } else {
-//                        Toast.makeText(UsbPrinterActivity.this, getString(R.string.ptintInit), Toast.LENGTH_LONG).show();
-//                    }
-//                }
-//            }
-//        });
+        button_print_picture = (Button) findViewById(R.id.button_print_picture);
+        button_print_picture.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                String exditText = editTextPrintGray.getText().toString();
+                if (exditText == null || exditText.length() < 1) {
+                    Toast.makeText(UsbPrinterActivity.this, getString(R.string.gray_level) + getString(R.string.lengthNotEnougth), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                printGray = Integer.parseInt(exditText);
+                if (printGray < 0 || printGray > 7) {
+                    Toast.makeText(UsbPrinterActivity.this, getString(R.string.outOfGray), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (LowBattery == true) {
+                    handler.sendMessage(handler.obtainMessage(LOWBATTERY, 1, 0, null));
+                } else {
+                    if (!nopaper) {
+                        progressDialog = ProgressDialog.show(UsbPrinterActivity.this, getString(R.string.bl_dy), getString(R.string.printing_wait));
+                        handler.sendMessage(handler.obtainMessage(PRINTPICTURE, 1, 0, null));
+                    } else {
+                        Toast.makeText(UsbPrinterActivity.this, getString(R.string.ptintInit), Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
 
         dialog = new ProgressDialog(UsbPrinterActivity.this);
         dialog.setTitle(R.string.idcard_czz);
