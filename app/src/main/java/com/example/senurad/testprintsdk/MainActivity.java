@@ -28,6 +28,22 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
+        //button click event
+        final Button btnCheck2 = (Button)findViewById(R.id.buttonUSBPrint2);
+        //btnCheck.setVisibility(View.INVISIBLE);//button will hidden untill user clicks on scan button
+        btnCheck2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity( new Intent(MainActivity.this, UsbPrinterTestActivity.class ));
+                finish();
+            }
+        });//btn event end
+
+
+
+
     }
 
 
