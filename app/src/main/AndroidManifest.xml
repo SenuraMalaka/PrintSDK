@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.senurad.testprintsdk">
 
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
@@ -20,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".PrinterActivity" />
-        <activity android:name=".UsbPrinterActivity"></activity>
+        <activity android:name=".UsbPrinterActivity" />
+        <activity android:name=".UsbPrinterTestActivity"></activity>
     </application>
 
 </manifest>

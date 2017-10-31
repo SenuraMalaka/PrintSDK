@@ -45,7 +45,8 @@ import com.telpo.tps550.api.util.StringUtil;
 import com.telpo.tps550.api.util.SystemUtil;
 
 
-public class UsbPrinterActivity extends Activity {
+public class UsbPrinterTestActivity extends Activity {
+
 
     private String printVersion;
     private final int NOPAPER = 3;
@@ -86,18 +87,22 @@ public class UsbPrinterActivity extends Activity {
     private ProgressDialog progressDialog;
     private final static int MAX_LEFT_DISTANCE = 255;
     ProgressDialog dialog;
-    UsbThermalPrinter mUsbThermalPrinter = new UsbThermalPrinter(UsbPrinterActivity.this);
+    UsbThermalPrinter mUsbThermalPrinter = new UsbThermalPrinter(UsbPrinterTestActivity.this);
     private String picturePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/111.bmp";
+
+
 
     private class MyHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
+
+
             switch (msg.what) {
                 case NOPAPER:
                     noPaperDlg();
                     break;
                 case LOWBATTERY:
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(UsbPrinterActivity.this);
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(UsbPrinterTestActivity.this);
                     alertDialog.setTitle(R.string.operation_result);
                     alertDialog.setMessage(getString(R.string.LowBattery));
                     alertDialog.setPositiveButton(getString(R.string.dialog_comfirm), new DialogInterface.OnClickListener() {
@@ -108,14 +113,14 @@ public class UsbPrinterActivity extends Activity {
                     alertDialog.show();
                     break;
                 case NOBLACKBLOCK:
-                    Toast.makeText(UsbPrinterActivity.this, R.string.maker_not_find, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UsbPrinterTestActivity.this, R.string.maker_not_find, Toast.LENGTH_SHORT).show();
                     break;
                 case PRINTVERSION:
                     dialog.dismiss();
                     if (msg.obj.equals("1")) {
                         textPrintVersion.setText(printVersion);
                     } else {
-                        Toast.makeText(UsbPrinterActivity.this, R.string.operation_fail, Toast.LENGTH_LONG).show();
+                        Toast.makeText(UsbPrinterTestActivity.this, R.string.operation_fail, Toast.LENGTH_LONG).show();
                     }
                     break;
                 case PRINTBARCODE:
@@ -137,13 +142,13 @@ public class UsbPrinterActivity extends Activity {
                     new printPicture().start();
                     break;
                 case CANCELPROMPT:
-                    if (progressDialog != null && !UsbPrinterActivity.this.isFinishing()) {
+                    if (progressDialog != null && !UsbPrinterTestActivity.this.isFinishing()) {
                         progressDialog.dismiss();
                         progressDialog = null;
                     }
                     break;
                 case OVERHEAT:
-                    AlertDialog.Builder overHeatDialog = new AlertDialog.Builder(UsbPrinterActivity.this);
+                    AlertDialog.Builder overHeatDialog = new AlertDialog.Builder(UsbPrinterTestActivity.this);
                     overHeatDialog.setTitle(R.string.operation_result);
                     overHeatDialog.setMessage(getString(R.string.overTemp));
                     overHeatDialog.setPositiveButton(getString(R.string.dialog_comfirm), new DialogInterface.OnClickListener() {
@@ -154,7 +159,7 @@ public class UsbPrinterActivity extends Activity {
                     overHeatDialog.show();
                     break;
                 default:
-                    Toast.makeText(UsbPrinterActivity.this, "Print Error!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(UsbPrinterTestActivity.this, "Print Error!", Toast.LENGTH_LONG).show();
                     break;
             }
         }
@@ -204,27 +209,27 @@ public class UsbPrinterActivity extends Activity {
             public void onClick(View v) {
                 String exditText = editTextPrintGray.getText().toString();
                 if (exditText == null || exditText.length() < 1) {
-                    Toast.makeText(UsbPrinterActivity.this, getString(R.string.gray_level) + getString(R.string.lengthNotEnougth), Toast.LENGTH_LONG).show();
+                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.gray_level) + getString(R.string.lengthNotEnougth), Toast.LENGTH_LONG).show();
                     return;
                 }
                 printGray = Integer.parseInt(exditText);
                 if (printGray < 0 || printGray > 7) {
-                    Toast.makeText(UsbPrinterActivity.this, getString(R.string.outOfGray), Toast.LENGTH_LONG).show();
+                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.outOfGray), Toast.LENGTH_LONG).show();
                     return;
                 }
                 qrcodeStr = editTextQrcode.getText().toString();
                 if (qrcodeStr == null || qrcodeStr.length() == 0) {
-                    Toast.makeText(UsbPrinterActivity.this, getString(R.string.input_print_data), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.input_print_data), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (LowBattery == true) {
                     handler.sendMessage(handler.obtainMessage(LOWBATTERY, 1, 0, null));
                 } else {
                     if (!nopaper) {
-                        progressDialog = ProgressDialog.show(UsbPrinterActivity.this, getString(R.string.D_barcode_loading), getString(R.string.generate_barcode_wait));
+                        progressDialog = ProgressDialog.show(UsbPrinterTestActivity.this, getString(R.string.D_barcode_loading), getString(R.string.generate_barcode_wait));
                         handler.sendMessage(handler.obtainMessage(PRINTQRCODE, 1, 0, null));
                     } else {
-                        Toast.makeText(UsbPrinterActivity.this, getString(R.string.ptintInit), Toast.LENGTH_LONG).show();
+                        Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.ptintInit), Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -243,27 +248,27 @@ public class UsbPrinterActivity extends Activity {
             public void onClick(View v) {
                 String exditText = editTextPrintGray.getText().toString();
                 if (exditText == null || exditText.length() < 1) {
-                    Toast.makeText(UsbPrinterActivity.this, getString(R.string.gray_level) + getString(R.string.lengthNotEnougth), Toast.LENGTH_LONG).show();
+                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.gray_level) + getString(R.string.lengthNotEnougth), Toast.LENGTH_LONG).show();
                     return;
                 }
                 printGray = Integer.parseInt(exditText);
                 if (printGray < 0 || printGray > 7) {
-                    Toast.makeText(UsbPrinterActivity.this, getString(R.string.outOfGray), Toast.LENGTH_LONG).show();
+                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.outOfGray), Toast.LENGTH_LONG).show();
                     return;
                 }
                 barcodeStr = editTextBarcode.getText().toString();
                 if (barcodeStr == null || barcodeStr.length() == 0) {
-                    Toast.makeText(UsbPrinterActivity.this, getString(R.string.empty), Toast.LENGTH_LONG).show();
+                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.empty), Toast.LENGTH_LONG).show();
                     return;
                 }
                 if (LowBattery == true) {
                     handler.sendMessage(handler.obtainMessage(LOWBATTERY, 1, 0, null));
                 } else {
                     if (!nopaper) {
-                        progressDialog = ProgressDialog.show(UsbPrinterActivity.this, getString(R.string.bl_dy), getString(R.string.printing_wait));
+                        progressDialog = ProgressDialog.show(UsbPrinterTestActivity.this, getString(R.string.bl_dy), getString(R.string.printing_wait));
                         handler.sendMessage(handler.obtainMessage(PRINTBARCODE, 1, 0, null));
                     } else {
-                        Toast.makeText(UsbPrinterActivity.this, getString(R.string.ptintInit), Toast.LENGTH_LONG).show();
+                        Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.ptintInit), Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -276,11 +281,11 @@ public class UsbPrinterActivity extends Activity {
                 String exditText;
                 exditText = editTextPaperWalk.getText().toString();
                 if (exditText == null || exditText.length() == 0) {
-                    Toast.makeText(UsbPrinterActivity.this, getString(R.string.empty), Toast.LENGTH_LONG).show();
+                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.empty), Toast.LENGTH_LONG).show();
                     return;
                 }
                 if (Integer.parseInt(exditText) < 1 || Integer.parseInt(exditText) > 255) {
-                    Toast.makeText(UsbPrinterActivity.this, getString(R.string.walk_paper_intput_value), Toast.LENGTH_LONG).show();
+                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.walk_paper_intput_value), Toast.LENGTH_LONG).show();
                     return;
                 }
                 paperWalk = Integer.parseInt(exditText);
@@ -288,10 +293,10 @@ public class UsbPrinterActivity extends Activity {
                     handler.sendMessage(handler.obtainMessage(LOWBATTERY, 1, 0, null));
                 } else {
                     if (!nopaper) {
-                        progressDialog = ProgressDialog.show(UsbPrinterActivity.this, getString(R.string.bl_dy), getString(R.string.printing_wait));
+                        progressDialog = ProgressDialog.show(UsbPrinterTestActivity.this, getString(R.string.bl_dy), getString(R.string.printing_wait));
                         handler.sendMessage(handler.obtainMessage(PRINTPAPERWALK, 1, 0, null));
                     } else {
-                        Toast.makeText(UsbPrinterActivity.this, getString(R.string.ptintInit), Toast.LENGTH_LONG).show();
+                        Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.ptintInit), Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -411,60 +416,62 @@ public class UsbPrinterActivity extends Activity {
                 //left margin
                 exditText = editTextLeftDistance.getText().toString();
                 if (exditText == null || exditText.length() < 1) {
-                    Toast.makeText(UsbPrinterActivity.this, getString(R.string.left_margin) + getString(R.string.lengthNotEnougth), Toast.LENGTH_LONG).show();
+                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.left_margin) + getString(R.string.lengthNotEnougth), Toast.LENGTH_LONG).show();
                     return;
                 }
-                leftDistance = Integer.parseInt(exditText);
+                leftDistance = 0;//Integer.parseInt(exditText);
 
                 //row space
                 exditText = editTextLineDistance.getText().toString();
                 if (exditText == null || exditText.length() < 1) {
-                    Toast.makeText(UsbPrinterActivity.this, getString(R.string.row_space) + getString(R.string.lengthNotEnougth), Toast.LENGTH_LONG).show();
+                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.row_space) + getString(R.string.lengthNotEnougth), Toast.LENGTH_LONG).show();
                     return;
                 }
+                lineDistance = 0;//Integer.parseInt(exditText);
 
-                lineDistance = Integer.parseInt(exditText);
-                printContent = editTextContent.getText().toString();
+                printContent = "Telpo Print Worked";editTextContent.getText().toString();
                 exditText = editTextWordFont.getText().toString();
                 if (exditText == null || exditText.length() < 1) {
-                    Toast.makeText(UsbPrinterActivity.this, getString(R.string.font_size) + getString(R.string.lengthNotEnougth), Toast.LENGTH_LONG).show();
+                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.font_size) + getString(R.string.lengthNotEnougth), Toast.LENGTH_LONG).show();
                     return;
                 }
-                wordFont = Integer.parseInt(exditText);
+                wordFont = 2;//Integer.parseInt(exditText);
+
                 exditText = editTextPrintGray.getText().toString();
                 if (exditText == null || exditText.length() < 1) {
-                    Toast.makeText(UsbPrinterActivity.this, getString(R.string.gray_level) + getString(R.string.lengthNotEnougth), Toast.LENGTH_LONG).show();
+                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.gray_level) + getString(R.string.lengthNotEnougth), Toast.LENGTH_LONG).show();
                     return;
                 }
-                printGray = Integer.parseInt(exditText);
+                printGray = 1;//Integer.parseInt(exditText);
+
                 if (leftDistance > MAX_LEFT_DISTANCE) {
-                    Toast.makeText(UsbPrinterActivity.this, getString(R.string.outOfLeft), Toast.LENGTH_LONG).show();
+                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.outOfLeft), Toast.LENGTH_LONG).show();
                     return;
                 }
                 if (lineDistance > 255) {
-                    Toast.makeText(UsbPrinterActivity.this, getString(R.string.outOfLine), Toast.LENGTH_LONG).show();
+                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.outOfLine), Toast.LENGTH_LONG).show();
                     return;
                 }
                 if (wordFont > 4 || wordFont < 1) {
-                    Toast.makeText(UsbPrinterActivity.this, getString(R.string.outOfFont), Toast.LENGTH_LONG).show();
+                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.outOfFont), Toast.LENGTH_LONG).show();
                     return;
                 }
                 if (printGray < 0 || printGray > 7) {
-                    Toast.makeText(UsbPrinterActivity.this, getString(R.string.outOfGray), Toast.LENGTH_LONG).show();
+                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.outOfGray), Toast.LENGTH_LONG).show();
                     return;
                 }
                 if (printContent == null || printContent.length() == 0) {
-                    Toast.makeText(UsbPrinterActivity.this, getString(R.string.empty), Toast.LENGTH_LONG).show();
+                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.empty), Toast.LENGTH_LONG).show();
                     return;
                 }
                 if (LowBattery == true) {
                     handler.sendMessage(handler.obtainMessage(LOWBATTERY, 1, 0, null));
                 } else {
                     if (!nopaper) {
-                        progressDialog = ProgressDialog.show(UsbPrinterActivity.this, getString(R.string.bl_dy), getString(R.string.printing_wait));
+                        progressDialog = ProgressDialog.show(UsbPrinterTestActivity.this, getString(R.string.bl_dy), getString(R.string.printing_wait));
                         handler.sendMessage(handler.obtainMessage(PRINTCONTENT, 1, 0, null));
                     } else {
-                        Toast.makeText(UsbPrinterActivity.this, getString(R.string.ptintInit), Toast.LENGTH_LONG).show();
+                        Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.ptintInit), Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -477,25 +484,25 @@ public class UsbPrinterActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (edittext_maker_search_distance.getText().length() == 0 || edittext_maker_walk_distance.getText().length() == 0) {
-                    Toast.makeText(UsbPrinterActivity.this, getString(R.string.maker_error), Toast.LENGTH_LONG).show();
+                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.maker_error), Toast.LENGTH_LONG).show();
                     return;
                 }
                 if (Integer.parseInt(edittext_maker_search_distance.getText().toString()) < 0 || Integer.parseInt(edittext_maker_search_distance.getText().toString()) > 255) {
-                    Toast.makeText(UsbPrinterActivity.this, getString(R.string.maker_error), Toast.LENGTH_LONG).show();
+                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.maker_error), Toast.LENGTH_LONG).show();
                     return;
                 }
                 if (Integer.parseInt(edittext_maker_walk_distance.getText().toString()) < 0 || Integer.parseInt(edittext_maker_walk_distance.getText().toString()) > 255) {
-                    Toast.makeText(UsbPrinterActivity.this, getString(R.string.maker_error), Toast.LENGTH_LONG).show();
+                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.maker_error), Toast.LENGTH_LONG).show();
                     return;
                 }
                 if (LowBattery == true) {
                     handler.sendMessage(handler.obtainMessage(LOWBATTERY, 1, 0, null));
                 } else {
                     if (!nopaper) {
-                        progressDialog = ProgressDialog.show(UsbPrinterActivity.this, getString(R.string.maker), getString(R.string.printing_wait));
+                        progressDialog = ProgressDialog.show(UsbPrinterTestActivity.this, getString(R.string.maker), getString(R.string.printing_wait));
                         handler.sendMessage(handler.obtainMessage(MAKER, 1, 0, null));
                     } else {
-                        Toast.makeText(UsbPrinterActivity.this, getString(R.string.ptintInit), Toast.LENGTH_LONG).show();
+                        Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.ptintInit), Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -511,28 +518,28 @@ public class UsbPrinterActivity extends Activity {
             public void onClick(View v) {
                 String exditText = editTextPrintGray.getText().toString();
                 if (exditText == null || exditText.length() < 1) {
-                    Toast.makeText(UsbPrinterActivity.this, getString(R.string.gray_level) + getString(R.string.lengthNotEnougth), Toast.LENGTH_LONG).show();
+                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.gray_level) + getString(R.string.lengthNotEnougth), Toast.LENGTH_LONG).show();
                     return;
                 }
                 printGray = Integer.parseInt(exditText);
                 if (printGray < 0 || printGray > 7) {
-                    Toast.makeText(UsbPrinterActivity.this, getString(R.string.outOfGray), Toast.LENGTH_LONG).show();
+                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.outOfGray), Toast.LENGTH_LONG).show();
                     return;
                 }
                 if (LowBattery == true) {
                     handler.sendMessage(handler.obtainMessage(LOWBATTERY, 1, 0, null));
                 } else {
                     if (!nopaper) {
-                        progressDialog = ProgressDialog.show(UsbPrinterActivity.this, getString(R.string.bl_dy), getString(R.string.printing_wait));
+                        progressDialog = ProgressDialog.show(UsbPrinterTestActivity.this, getString(R.string.bl_dy), getString(R.string.printing_wait));
                         handler.sendMessage(handler.obtainMessage(PRINTPICTURE, 1, 0, null));
                     } else {
-                        Toast.makeText(UsbPrinterActivity.this, getString(R.string.ptintInit), Toast.LENGTH_LONG).show();
+                        Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.ptintInit), Toast.LENGTH_LONG).show();
                     }
                 }
             }
         });
 
-        dialog = new ProgressDialog(UsbPrinterActivity.this);
+        dialog = new ProgressDialog(UsbPrinterTestActivity.this);
         dialog.setTitle(R.string.idcard_czz);
         dialog.setMessage(getText(R.string.watting));
         dialog.setCancelable(false);
@@ -617,7 +624,7 @@ public class UsbPrinterActivity extends Activity {
     };
 
     private void noPaperDlg() {
-        AlertDialog.Builder dlg = new AlertDialog.Builder(UsbPrinterActivity.this);
+        AlertDialog.Builder dlg = new AlertDialog.Builder(UsbPrinterTestActivity.this);
         dlg.setTitle(getString(R.string.noPaper));
         dlg.setMessage(getString(R.string.noPaperNotice));
         dlg.setCancelable(false);
@@ -822,7 +829,7 @@ public class UsbPrinterActivity extends Activity {
 
                         @Override
                         public void run() {
-                            Toast.makeText(UsbPrinterActivity.this, getString(R.string.not_find_picture), Toast.LENGTH_LONG).show();
+                            Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.not_find_picture), Toast.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -849,7 +856,7 @@ public class UsbPrinterActivity extends Activity {
 
     @Override
     protected void onDestroy() {
-        if (progressDialog != null && !UsbPrinterActivity.this.isFinishing()) {
+        if (progressDialog != null && !UsbPrinterTestActivity.this.isFinishing()) {
             progressDialog.dismiss();
             progressDialog = null;
         }
