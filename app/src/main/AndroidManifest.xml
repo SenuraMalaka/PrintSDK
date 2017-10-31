@@ -3,7 +3,6 @@
     package="com.example.senurad.testprintsdk">
 
 
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
