@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Hashtable;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -17,22 +16,10 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.BatteryManager;
-import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
@@ -64,15 +51,8 @@ public class UsbPrinterTestActivity {
     private final int PRINTPICTURE = 14;
     private final int NOBLACKBLOCK = 15;
 
-    //private LinearLayout print_text, print_pic;
-    //private TextView text_index, pic_index,textPrintVersion;
     MyHandler handler;
-//    private EditText editTextLeftDistance,editTextLineDistance,editTextWordFont,editTextPrintGray,
-//            editTextBarcode,editTextQrcode,editTextPaperWalk,editTextContent,
-//            edittext_maker_search_distance,edittext_maker_walk_distance;
-    private Button buttonBarcodePrint,buttonPaperWalkPrint,buttonContentPrint,buttonQrcodePrint,
-            buttonGetExampleText,buttonGetZhExampleText,buttonGetFRExampleText,buttonClearText,
-            button_maker,button_print_picture;
+
     private String Result;
     private Boolean nopaper = false;
     private boolean LowBattery = false;
@@ -190,17 +170,14 @@ public class UsbPrinterTestActivity {
         }
 
         if (exditText == null || exditText.length() < 1) {
-            //Toast.makeText(thisActivity, thisActivity.getString(R.string.gray_level) + getString(R.string.lengthNotEnougth), Toast.LENGTH_LONG).show();
             return;
         }
         printGray = Integer.parseInt(exditText);
         if (printGray < 0 || printGray > 7) {
-            //Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.outOfGray), Toast.LENGTH_LONG).show();
             return;
         }
         qrcodeStr = "sample qr";
         if (qrcodeStr == null || qrcodeStr.length() == 0) {
-            //Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.input_print_data), Toast.LENGTH_SHORT).show();
             return;
         }
         if (LowBattery == true) {
@@ -218,24 +195,21 @@ public class UsbPrinterTestActivity {
 
 
 
-    private void printBarcodeNow(){
+    public void printBarcodeNow(){
         String exditText = "1";
         if(SystemUtil.getDeviceType() == StringUtil.DeviceModelEnum.TPS900.ordinal()){
             exditText="5";
         }
         if (exditText == null || exditText.length() < 1) {
-            //Toast.makeText(thisActivity, thisActivity.getString(R.string.gray_level) + getString(R.string.lengthNotEnougth), Toast.LENGTH_LONG).show();
             return;
         }
         printGray = Integer.parseInt(exditText);
         if (printGray < 0 || printGray > 7) {
-            //Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.outOfGray), Toast.LENGTH_LONG).show();
             return;
         }
         barcodeStr = "12345";
         if (barcodeStr == null || barcodeStr.length() == 0) {
-            //Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.empty), Toast.LENGTH_LONG).show();
-            return;
+             return;
         }
         if (LowBattery == true) {
             handler.sendMessage(handler.obtainMessage(LOWBATTERY, 1, 0, null));
@@ -258,7 +232,6 @@ public class UsbPrinterTestActivity {
         //left margin
         exditText = "0";
         if (exditText == null || exditText.length() < 1) {
-            //Toast.makeText(thisActivity, thisActivity.getString(R.string.left_margin) + thisActivity.getString(R.string.lengthNotEnougth), Toast.LENGTH_LONG).show();
             return;
         }
         leftDistance = 0;//Integer.parseInt(exditText);
@@ -266,7 +239,6 @@ public class UsbPrinterTestActivity {
         //row space
         exditText = "0";
         if (exditText == null || exditText.length() < 1) {
-            //Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.row_space) + getString(R.string.lengthNotEnougth), Toast.LENGTH_LONG).show();
             return;
         }
         lineDistance = 0;//Integer.parseInt(exditText);
@@ -275,36 +247,29 @@ public class UsbPrinterTestActivity {
 
         exditText = "2";
         if (exditText == null || exditText.length() < 1) {
-            //Toast.makeText(thisActivity, thisActivity.getString(R.string.font_size) + thisActivity.getString(R.string.lengthNotEnougth), Toast.LENGTH_LONG).show();
-            return;
+             return;
         }
         wordFont = 2;//Integer.parseInt(exditText);
 
         exditText = "1";
         if (exditText == null || exditText.length() < 1) {
-            //Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.gray_level) + getString(R.string.lengthNotEnougth), Toast.LENGTH_LONG).show();
-            return;
+             return;
         }
         printGray = 1;//Integer.parseInt(exditText);
 
         if (leftDistance > MAX_LEFT_DISTANCE) {
-            //Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.outOfLeft), Toast.LENGTH_LONG).show();
             return;
         }
         if (lineDistance > 255) {
-            //Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.outOfLine), Toast.LENGTH_LONG).show();
             return;
         }
         if (wordFont > 4 || wordFont < 1) {
-            //Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.outOfFont), Toast.LENGTH_LONG).show();
             return;
         }
         if (printGray < 0 || printGray > 7) {
-            //Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.outOfGray), Toast.LENGTH_LONG).show();
             return;
         }
         if (printContent == null || printContent.length() == 0) {
-            //Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.empty), Toast.LENGTH_LONG).show();
             return;
         }
         if (LowBattery == true) {
@@ -327,12 +292,10 @@ public class UsbPrinterTestActivity {
 
         String exditText = "1";
         if (exditText == null || exditText.length() < 1) {
-            //Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.gray_level) + getString(R.string.lengthNotEnougth), Toast.LENGTH_LONG).show();
-            return;
+             return;
         }
         printGray = 1;
         if (printGray < 0 || printGray > 7) {
-            //Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.outOfGray), Toast.LENGTH_LONG).show();
             return;
         }
         if (LowBattery == true) {
@@ -352,361 +315,18 @@ public class UsbPrinterTestActivity {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-//    private void initView() {
-//        print_text = (LinearLayout) thisActivity.findViewById(R.id.print_text);
-//        print_pic = (LinearLayout) thisActivity.findViewById(R.id.print_code_and_pic);
-//        text_index = (TextView) thisActivity.findViewById(R.id.index_text);
-//        pic_index = (TextView) thisActivity.findViewById(R.id.index_pic);
-//    }
-
-
     public void UsbPrinterTestActivityStart(TestPrintContentActivity passedActivity) {
-        //super.onCreate(savedInstanceState);
-        //requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        //setContentView(R.layout.activity_usb_printer);
-        //initView();
+
         setActivity(passedActivity);
         savepic();
         handler = new MyHandler();
-        //buttonBarcodePrint = (Button) thisActivity.findViewById(R.id.print_barcode);
 
         IntentFilter pIntentFilter = new IntentFilter();
         pIntentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
         pIntentFilter.addAction("android.intent.action.BATTERY_CAPACITY_EVENT");
         thisActivity.registerReceiver(printReceive, pIntentFilter);
 
-//        editTextLeftDistance = (EditText) findViewById(R.id.set_leftDistance);
-//        editTextLineDistance = (EditText) findViewById(R.id.set_lineDistance);
-//        editTextWordFont = (EditText) findViewById(R.id.set_wordFont);
-//        editTextPrintGray = (EditText) findViewById(R.id.set_printGray);
-//        editTextBarcode = (EditText) findViewById(R.id.set_Barcode);
-//        editTextPaperWalk = (EditText) findViewById(R.id.set_paperWalk);
-//        editTextContent = (EditText) findViewById(R.id.set_content);
-        //textPrintVersion = (TextView) findViewById(R.id.print_version);
-//        editTextQrcode = (EditText) findViewById(R.id.set_Qrcode);
-//        edittext_maker_search_distance = (EditText) findViewById(R.id.edittext_maker_search_distance);
-//        edittext_maker_walk_distance = (EditText) findViewById(R.id.edittext_maker_walk_distance);
 
-
-
-//        editTextContent.setOnTouchListener(new View.OnTouchListener() {
-//
-//            @Override
-//            public boolean onTouch(View v, MotionEvent arg1) {
-//                v.getParent().requestDisallowInterceptTouchEvent(true);
-//                return false;
-//            }
-//        });
-
-
-
-//        buttonBarcodePrint.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String exditText = editTextPrintGray.getText().toString();
-//                if (exditText == null || exditText.length() < 1) {
-//                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.gray_level) + getString(R.string.lengthNotEnougth), Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-//                printGray = Integer.parseInt(exditText);
-//                if (printGray < 0 || printGray > 7) {
-//                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.outOfGray), Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-//                barcodeStr = editTextBarcode.getText().toString();
-//                if (barcodeStr == null || barcodeStr.length() == 0) {
-//                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.empty), Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-//                if (LowBattery == true) {
-//                    handler.sendMessage(handler.obtainMessage(LOWBATTERY, 1, 0, null));
-//                } else {
-//                    if (!nopaper) {
-//                        progressDialog = ProgressDialog.show(UsbPrinterTestActivity.this, getString(R.string.bl_dy), getString(R.string.printing_wait));
-//                        handler.sendMessage(handler.obtainMessage(PRINTBARCODE, 1, 0, null));
-//                    } else {
-//                        Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.ptintInit), Toast.LENGTH_LONG).show();
-//                    }
-//                }
-//            }
-//        });
-
-//        buttonPaperWalkPrint = (Button) findViewById(R.id.print_paperWalk);
-//        buttonPaperWalkPrint.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                String exditText;
-//                exditText = editTextPaperWalk.getText().toString();
-//                if (exditText == null || exditText.length() == 0) {
-//                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.empty), Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-//                if (Integer.parseInt(exditText) < 1 || Integer.parseInt(exditText) > 255) {
-//                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.walk_paper_intput_value), Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-//                paperWalk = Integer.parseInt(exditText);
-//                if (LowBattery == true) {
-//                    handler.sendMessage(handler.obtainMessage(LOWBATTERY, 1, 0, null));
-//                } else {
-//                    if (!nopaper) {
-//                        progressDialog = ProgressDialog.show(UsbPrinterTestActivity.this, getString(R.string.bl_dy), getString(R.string.printing_wait));
-//                        handler.sendMessage(handler.obtainMessage(PRINTPAPERWALK, 1, 0, null));
-//                    } else {
-//                        Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.ptintInit), Toast.LENGTH_LONG).show();
-//                    }
-//                }
-//            }
-//        });
-
-//        buttonClearText = (Button) findViewById(R.id.clearText);
-//        buttonClearText.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                editTextContent.setText("");
-//            }
-//        });
-//        buttonGetExampleText = (Button) findViewById(R.id.getPrintExample);
-//        buttonGetExampleText.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String str = "\n---------------------------\n" +
-//                        "Print Test:\n" +
-//                        "Device Base Information\n" +
-//                        "Printer Version:\n" +
-//                        "V05.2.0.3\n" +
-//                        "Printer Gray:3\n" +
-//                        "Soft Version:\n"+
-//                        "Demo.G50.0.Build140313\n" +
-//                        "Battery Level:100%\n" +
-//                        "CSQ Value:24\n" +
-//                        "IMEI:86378902177527\n" +
-//                        "---------------------------\n" +
-//                        "---------------------------\n" +
-//                        "Print Test:\n" +
-//                        "Device Base Information\n" +
-//                        "Printer Version:\n" +
-//                        "V05.2.0.3\n" +
-//                        "Printer Gray:3\n" +
-//                        "Soft Version:\n"+
-//                        "Demo.G50.0.Build140313\n" +
-//                        "Battery Level:100%\n" +
-//                        "CSQ Value:24\n" +
-//                        "IMEI:86378902177527\n" +
-//                        "---------------------------\n" +
-//                        "---------------------------\n" +
-//                        "Print Test:\n" +
-//                        "Device Base Information\n" +
-//                        "Printer Version:\n" +
-//                        "V05.2.0.3\n" +
-//                        "Printer Gray:3\n" +
-//                        "Soft Version:\n"+
-//                        "Demo.G50.0.Build140313\n" +
-//                        "Battery Level:100%\n" +
-//                        "CSQ Value:24\n" +
-//                        "IMEI:86378902177527\n" +
-//                        "---------------------------\n";
-//                editTextContent.setText(str);
-//            }
-//        });
-
-//        buttonGetZhExampleText = (Button) findViewById(R.id.getZhPrintExample);
-//        buttonGetZhExampleText.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String str = "\n             烧烤" + "\n---------------------------" + "\n日期：2015-01-01 16:18:20" + "\n卡号：12378945664" + "\n单号：1001000000000529142" + "\n---------------------------"
-//                        + "\n    项目        数量   单价  小计" +
-//                        "\n秘制烤羊腿    1      56      56" +
-//                        "\n烤火鸡            2      50      100" +
-//                        "\n烤全羊            1      200    200"+
-//                        "\n秘制烤鸡腿    1      56      56" +
-//                        "\n烤牛腿            2      50      100" +
-//                        "\n烤猪蹄            1      200    200"+
-//                        "\n秘制烤牛腿    1      56      56" +
-//                        "\n烤火鸡            2      50      100" +
-//                        "\n烤全羊            1      200    200"+
-//                        "\n秘制烤猪腿    1      56      56" +
-//                        "\n烤火鸡            2      50      100" +
-//                        "\n烤全牛            1      200    200"+
-//                        "\n特色烤鸭腿    1      56      56" +
-//                        "\n烤土鸡            2      50      100" +
-//                        "\n烤全羊            1      200    200"+
-//                        "\n秘制烤火腿    1      56      56" +
-//                        "\n烤火鸡            2      50      100" +
-//                        "\n烤全羊            1      200    200"+
-//                        "\n秘制烤鸡腿    1      56      56" +
-//                        "\n烤火鸡            2      50      100" +
-//                        "\n烤全羊            1      200    200"+
-//                        "\n秘制烤火腿    1      56      56" +
-//                        "\n烤火鸡            2      50      100" +
-//                        "\n烤全羊            1      200    200"+
-//                        "\n秘制烤牛筋    1      56      56" +
-//                        "\n烤土鸡            2      50      100" +
-//                        "\n烤白鸽            1      200    200"+
-//                        "\n秘制鸭下巴    1      56      56" +
-//                        "\n烤火鸡            2      50      100" +
-//                        "\n烤全牛            1      200    200"+
-//                        "\n 合计：1000:00元" +
-//                        "\n----------------------------" +
-//                        "\n本卡金额：10000.00" + "\n累计消费：1000.00" + "\n本卡结余：9000.00" + "\n----------------------------" +
-//                        "\n 地址：广东省佛山市南海区桂城街道桂澜南路45号鹏瑞利广场A317.B-18号铺" + "\n欢迎您的再次光临\n";
-//                editTextContent.setText(str);
-//            }
-//        });
-
-//        buttonGetFRExampleText = (Button) findViewById(R.id.getFrPrintExample);
-//        buttonGetFRExampleText.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                String str = "\nÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóô\n";
-//                editTextContent.setText(str);
-//            }
-//
-//        });
-
-//        buttonContentPrint = (Button) findViewById(R.id.print_content);
-//        buttonContentPrint.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                String exditText;
-//                //left margin
-//                exditText = editTextLeftDistance.getText().toString();
-//                if (exditText == null || exditText.length() < 1) {
-//                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.left_margin) + getString(R.string.lengthNotEnougth), Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-//                leftDistance = 0;//Integer.parseInt(exditText);
-//
-//                //row space
-//                exditText = editTextLineDistance.getText().toString();
-//                if (exditText == null || exditText.length() < 1) {
-//                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.row_space) + getString(R.string.lengthNotEnougth), Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-//                lineDistance = 0;//Integer.parseInt(exditText);
-//
-//                printContent = "Telpo Print Worked";editTextContent.getText().toString();
-//                exditText = editTextWordFont.getText().toString();
-//                if (exditText == null || exditText.length() < 1) {
-//                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.font_size) + getString(R.string.lengthNotEnougth), Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-//                wordFont = 2;//Integer.parseInt(exditText);
-//
-//                exditText = editTextPrintGray.getText().toString();
-//                if (exditText == null || exditText.length() < 1) {
-//                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.gray_level) + getString(R.string.lengthNotEnougth), Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-//                printGray = 1;//Integer.parseInt(exditText);
-//
-//                if (leftDistance > MAX_LEFT_DISTANCE) {
-//                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.outOfLeft), Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-//                if (lineDistance > 255) {
-//                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.outOfLine), Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-//                if (wordFont > 4 || wordFont < 1) {
-//                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.outOfFont), Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-//                if (printGray < 0 || printGray > 7) {
-//                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.outOfGray), Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-//                if (printContent == null || printContent.length() == 0) {
-//                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.empty), Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-//                if (LowBattery == true) {
-//                    handler.sendMessage(handler.obtainMessage(LOWBATTERY, 1, 0, null));
-//                } else {
-//                    if (!nopaper) {
-//                        progressDialog = ProgressDialog.show(UsbPrinterTestActivity.this, getString(R.string.bl_dy), getString(R.string.printing_wait));
-//                        handler.sendMessage(handler.obtainMessage(PRINTCONTENT, 1, 0, null));
-//                    } else {
-//                        Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.ptintInit), Toast.LENGTH_LONG).show();
-//                    }
-//                }
-//
-//            }
-//        });
-
-//        button_maker = (Button) findViewById(R.id.button_maker);
-//        button_maker.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                if (edittext_maker_search_distance.getText().length() == 0 || edittext_maker_walk_distance.getText().length() == 0) {
-//                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.maker_error), Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-//                if (Integer.parseInt(edittext_maker_search_distance.getText().toString()) < 0 || Integer.parseInt(edittext_maker_search_distance.getText().toString()) > 255) {
-//                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.maker_error), Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-//                if (Integer.parseInt(edittext_maker_walk_distance.getText().toString()) < 0 || Integer.parseInt(edittext_maker_walk_distance.getText().toString()) > 255) {
-//                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.maker_error), Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-//                if (LowBattery == true) {
-//                    handler.sendMessage(handler.obtainMessage(LOWBATTERY, 1, 0, null));
-//                } else {
-//                    if (!nopaper) {
-//                        progressDialog = ProgressDialog.show(UsbPrinterTestActivity.this, getString(R.string.maker), getString(R.string.printing_wait));
-//                        handler.sendMessage(handler.obtainMessage(MAKER, 1, 0, null));
-//                    } else {
-//                        Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.ptintInit), Toast.LENGTH_LONG).show();
-//                    }
-//                }
-//            }
-//        });
-
-
-
-        //commented - Sen
-//        button_print_picture = (Button) findViewById(R.id.button_print_picture);
-//        button_print_picture.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                String exditText = editTextPrintGray.getText().toString();
-//                if (exditText == null || exditText.length() < 1) {
-//                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.gray_level) + getString(R.string.lengthNotEnougth), Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-//                printGray = Integer.parseInt(exditText);
-//                if (printGray < 0 || printGray > 7) {
-//                    Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.outOfGray), Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-//                if (LowBattery == true) {
-//                    handler.sendMessage(handler.obtainMessage(LOWBATTERY, 1, 0, null));
-//                } else {
-//                    if (!nopaper) {
-//                        progressDialog = ProgressDialog.show(UsbPrinterTestActivity.this, getString(R.string.bl_dy), getString(R.string.printing_wait));
-//                        handler.sendMessage(handler.obtainMessage(PRINTPICTURE, 1, 0, null));
-//                    } else {
-//                        Toast.makeText(UsbPrinterTestActivity.this, getString(R.string.ptintInit), Toast.LENGTH_LONG).show();
-//                    }
-//                }
-//            }
-//        });
 
         dialog = new ProgressDialog(thisActivity);
         dialog.setTitle(R.string.idcard_czz);
@@ -746,14 +366,6 @@ public class UsbPrinterTestActivity {
 
 
 
-
-
-
-    /* Called when the application resumes */
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//    }
 
     public final BroadcastReceiver printReceive = new BroadcastReceiver() {
         @Override
@@ -1030,48 +642,15 @@ public class UsbPrinterTestActivity {
         }
     }
 
-//    @Override
-//    protected void onDestroy() {
-//        if (progressDialog != null && !thisActivity.isFinishing()) {
-//            progressDialog.dismiss();
-//            progressDialog = null;
-//        }
-//        thisActivity.unregisterReceiver(printReceive);
-//        mUsbThermalPrinter.stop();
-//        super.onDestroy();
-//    }
-//
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if (keyCode == KeyEvent.KEYCODE_BACK) {
-//            finish();
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
-
-    /**
-     * 生成条码
-     *
-     * @param str
-     *            条码内容
-     * @param type
-     *            条码类型： AZTEC, CODABAR, CODE_39, CODE_93, CODE_128, DATA_MATRIX,
-     *            EAN_8, EAN_13, ITF, MAXICODE, PDF_417, QR_CODE, RSS_14,
-     *            RSS_EXPANDED, UPC_A, UPC_E, UPC_EAN_EXTENSION;
-     * @param bmpWidth
-     *            生成位图宽,宽不能大于384，不然大于打印纸宽度
-     * @param bmpHeight
-     *            生成位图高，8的倍数
-     */
 
     public Bitmap CreateCode(String str, com.google.zxing.BarcodeFormat type, int bmpWidth, int bmpHeight) throws WriterException {
         Hashtable<EncodeHintType,String> mHashtable = new Hashtable<EncodeHintType,String>();
         mHashtable.put(EncodeHintType.CHARACTER_SET, "UTF-8");
-        // 生成二维矩阵,编码时要指定大小,不要生成了图片以后再进行缩放,以防模糊导致识别失败
+
         BitMatrix matrix = new MultiFormatWriter().encode(str, type, bmpWidth, bmpHeight, mHashtable);
         int width = matrix.getWidth();
         int height = matrix.getHeight();
-        // 二维矩阵转为一维像素数组（一直横着排）
+
         int[] pixels = new int[width * height];
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
@@ -1083,30 +662,11 @@ public class UsbPrinterTestActivity {
             }
         }
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        // 通过像素数组生成bitmap,具体参考api
+
         bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
         return bitmap;
     }
 
-//    public void selectIndex(View view) {
-//        switch (view.getId()) {
-//            case R.id.index_text:
-//                text_index.setEnabled(false);
-//                pic_index.setEnabled(true);
-//                print_text.setVisibility(View.VISIBLE);
-//                print_pic.setVisibility(View.GONE);
-//
-//                break;
-//
-//            case R.id.index_pic:
-//
-//                text_index.setEnabled(true);
-//                pic_index.setEnabled(false);
-//                print_text.setVisibility(View.GONE);
-//                print_pic.setVisibility(View.VISIBLE);
-//                break;
-//        }
-//    }
 
     private void savepic() {
         File file = new File(picturePath);

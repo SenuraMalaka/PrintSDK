@@ -43,11 +43,6 @@ public class TestPrintContentActivity extends AppCompatActivity {
             }
         });//btn event end
 
-
-
-
-
-
     }
 
 
