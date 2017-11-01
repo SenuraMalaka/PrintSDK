@@ -752,7 +752,7 @@ public class UsbPrinterTestActivity {
 //                }
 //            }, 3000);
 
-            printPictureNow();
+            //printPictureNow();
 
 
         }

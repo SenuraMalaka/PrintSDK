@@ -7,6 +7,9 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class TestPrintContentActivity extends AppCompatActivity {
 
 
@@ -27,6 +30,7 @@ public class TestPrintContentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 printerActv.printCheckWinner();
+                setTimers();
             }
         });//btn event end
 
@@ -68,6 +72,21 @@ public class TestPrintContentActivity extends AppCompatActivity {
             finish();
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+
+
+    private void setTimers(){
+
+         Timer timer=new Timer();
+
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                 printerActv.printPictureNow();
+                }
+            }, 3000);
+
     }
 
 
