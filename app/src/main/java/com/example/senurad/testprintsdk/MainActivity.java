@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         btnCheck2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity( new Intent(MainActivity.this, UsbPrinterTestActivity.class ));
+                startActivity( new Intent(MainActivity.this, TestPrintContentActivity.class ));
                 finish();
             }
         });//btn event end

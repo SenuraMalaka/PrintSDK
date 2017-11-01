@@ -20,7 +20,8 @@
         </activity>
         <activity android:name=".PrinterActivity" />
         <activity android:name=".UsbPrinterActivity" />
-        <activity android:name=".UsbPrinterTestActivity"></activity>
+        <activity android:name=".UsbPrinterTestActivity" />
+        <activity android:name=".TestPrintContentActivity"></activity>
     </application>
 
 </manifest>
