@@ -26,7 +26,7 @@ public class TestPrintContentActivity extends AppCompatActivity {
         btnPrintContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                printerActv.printContentNow();
+                printerActv.printCheckWinner();
             }
         });//btn event end
 

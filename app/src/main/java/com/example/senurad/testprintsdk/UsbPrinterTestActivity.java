@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Hashtable;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -69,9 +71,15 @@ public class UsbPrinterTestActivity {
     private final static int MAX_LEFT_DISTANCE = 255;
     ProgressDialog dialog;
     UsbThermalPrinter mUsbThermalPrinter = null;
-    private String picturePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/111.bmp";
+    private String picturePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/1112.bmp";
 
     private TestPrintContentActivity thisActivity =null;
+
+    private String msgToBePrinted="none";
+    private String msgTitle="none";
+    private String fontSize="2";
+    boolean isLogoNeed=false;
+
 
 
     private static final String TAG = "USBPrintACT";
@@ -226,7 +234,7 @@ public class UsbPrinterTestActivity {
 
 
 
-    public void printContentNow(){
+    public void printContentNow(String printMSG){
 
         String exditText;
         //left margin
@@ -243,13 +251,13 @@ public class UsbPrinterTestActivity {
         }
         lineDistance = 0;//Integer.parseInt(exditText);
 
-        printContent = "Telpo Print Worked 2";
+        printContent = printMSG;
 
-        exditText = "2";
+        exditText = fontSize;
         if (exditText == null || exditText.length() < 1) {
              return;
         }
-        wordFont = 2;//Integer.parseInt(exditText);
+        wordFont = Integer.parseInt(fontSize);//Integer.parseInt(exditText);
 
         exditText = "1";
         if (exditText == null || exditText.length() < 1) {
@@ -675,7 +683,7 @@ public class UsbPrinterTestActivity {
             FileOutputStream fos = null;
             byte[] tmp = new byte[1024];
             try {
-                inputStream = thisActivity.getApplicationContext().getAssets().open("syhlogo.png");
+                inputStream = thisActivity.getApplicationContext().getAssets().open("timorscratch.jpg");
                 fos = new FileOutputStream(file);
                 int length = 0;
                 while((length = inputStream.read(tmp)) > 0){
@@ -694,5 +702,69 @@ public class UsbPrinterTestActivity {
             }
         }
     }
+
+
+
+
+    public void printCheckWinner(){
+
+
+//        msgTitle="--------------------\n" +
+//                "TMS Check Winner\n" +
+//                "Prize : 1\n" +
+//                "-------------------\n";
+
+        msgToBePrinted="--------------------\n" +
+                        "TMS Check Winner\n" +
+                        "Prize : 1\n" +
+                        "-------------------\n"+
+                        "Prize Value : 1.0\n" +
+                        "Game : lafaek\n" +
+                        "Terminal : 010101020200322\n" +
+                        "Msg: virn found 00112001920019 flag: true\n" +
+                        "Term email: abcdefg@google.lk\n" +
+                        "Processed by: 123123212131232\n" +
+                        "2017-10-10 18:45:25. 123123";
+
+        isLogoNeed=true;
+
+        setPrinter();
+
+
+    }
+
+
+    private void setPrinter(){
+
+        if(isLogoNeed)
+        {
+            //prints message as well as logo
+
+            fontSize="2";
+            printContentNow(msgToBePrinted);
+
+//           final Timer timer=new Timer();
+//
+//            timer.schedule(new TimerTask() {
+//                @Override
+//                public void run() {
+//              //do nothing
+//                }
+//            }, 3000);
+
+            printPictureNow();
+
+
+        }
+        else
+        {
+            //will not print the logo
+            printContentNow(msgTitle);
+            printContentNow(msgToBePrinted);
+        }
+
+    }
+
+
 
 }

@@ -741,7 +741,7 @@ public class UsbPrinterActivity extends Activity {
                     mUsbThermalPrinter.enlargeFontSize(2, 2);
                 } else if (wordFont == 3) {
                     mUsbThermalPrinter.setFontSize(1);
-                    mUsbThermalPrinter.enlargeFontSize(2, 2);
+                    mUsbThermalPrinter.enlargeFontSize(2,2);
                 } else if (wordFont == 2) {
                     mUsbThermalPrinter.setFontSize(2);
                 } else if (wordFont == 1) {
